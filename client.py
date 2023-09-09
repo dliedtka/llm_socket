@@ -13,8 +13,10 @@ if __name__ == "__main__":
 
     message = input("Prompt: ")
     client_socket.send(message.encode('utf-8'))
+    print("Sent prompt.")
 
     response = client_socket.recv(16384).decode('utf-8')
+    print("RESPONSE:")
     print(response)
 
     client_socket.close()
