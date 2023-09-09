@@ -6,19 +6,19 @@ from transformers import BitsAndBytesConfig
 from transformers import AutoModelForCausalLM, AutoTokenizer
 
 
+print("Loading model...")
 quantization_config = BitsAndBytesConfig(
     load_in_4bit=True,
     bnb_4bit_compute_dtype=torch.bfloat16
 )
-
 model_id = "meta-llama/Llama-2-13b-chat-hf"
 tokenizer = AutoTokenizer.from_pretrained(model_id)
-
 model = AutoModelForCausalLM.from_pretrained(
     model_id, 
     quantization_config=quantization_config,
     device_map="auto"
 )
+print("Model loaded.")
 
 
 def handle_client(client_socket, client_address):
