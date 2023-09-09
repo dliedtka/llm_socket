@@ -27,14 +27,16 @@ def handle_client(client_socket, client_address):
         prompt = client_socket.recv(16384).decode('utf-8')
         if not prompt:
             break  # connection closed by client
-        print(f"Received prompt")
+        print(f"Received prompt.")
+        print(prompt)
         
         inputs = tokenizer(prompt, return_tensors="pt").to("cuda:0")
         outputs = model.generate(**inputs)[0]
         response = tokenizer.decode(outputs)
         
         client_socket.send(response.encode('utf-8'))
-        print("Sent response")
+        print("Sent response.")
+        print(response)
     client_socket.close()
     print(f"Connection closed")
         

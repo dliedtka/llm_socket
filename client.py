@@ -1,3 +1,4 @@
+import os
 import sys
 import socket 
 
@@ -11,7 +12,11 @@ if __name__ == "__main__":
     port = 12345       
     client_socket.connect((host, port))
 
-    message = input("Prompt: ")
+    if os.path.exists("prompt.txt"):
+        with open("prompt.txt", "r") as fin:
+            message = fin.read()
+    else:
+        message = input("Prompt: ")
     client_socket.send(message.encode('utf-8'))
     print("Sent prompt.")
 
