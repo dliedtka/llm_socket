@@ -27,8 +27,9 @@ def handle_client(client_socket, client_address):
     print(f"Received prompt.")
     
     inputs = tokenizer(prompt, return_tensors="pt").to("cuda:0")
-    outputs = model.generate(**inputs)
-    response = tokenizer.decode(outputs[0])
+    input_len = len(inputs["input_ids"][0])
+    outputs = model.generate(**inputs)[0][input_len:]
+    response = tokenizer.decode(outputs, skip_special_tokens=True).strip()
     
     client_socket.send(response.encode('utf-8'))
     print("Sent response.")
